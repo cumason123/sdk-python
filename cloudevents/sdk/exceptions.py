@@ -45,3 +45,10 @@ class UnsupportedEventConverter(Exception):
             "Unable to identify valid event converter "
             "for content-type: '{0}'".format(content_type)
         )
+
+class MissingRequiredHeaderField(Exception):
+    def __init__(self, field):
+        super().__init__(
+            "Missing or invalid required field {0} in Event "
+            "headers constructor argument".format(field)
+        )
