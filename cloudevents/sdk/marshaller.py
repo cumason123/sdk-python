@@ -111,8 +111,8 @@ def NewDefaultHTTPMarshaller() -> HTTPMarshaller:
     """
     return HTTPMarshaller(
         [
-            structured.NewJSONHTTPCloudEventConverter(),
             binary.NewBinaryHTTPCloudEventConverter(),
+            structured.NewJSONHTTPCloudEventConverter(),
         ]
     )
 

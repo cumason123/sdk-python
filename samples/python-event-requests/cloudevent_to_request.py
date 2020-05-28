@@ -13,7 +13,7 @@
 #    under the License.
 import sys
 import io
-from cloudevents.sdk.Event import Event
+from cloudevents.sdk.Event import BinaryEvent
 
 if __name__ == "__main__":
 
@@ -31,8 +31,8 @@ if __name__ == "__main__":
         "ce-type": "cloudevent.event.type",
         "ce-specversion": "0.2"
     }
-    data = io.BytesIO(b'{"data": {"name": "curt"}}')
+    data = {"name": "curt"}
 
-    event = Event(headers=headers, data=data)
+    event = BinaryEvent(headers=headers, data=data)
     event.emit(url)
 
