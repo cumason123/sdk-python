@@ -38,6 +38,7 @@ def test_binary_converter_upstream(event_class):
     assert event is not None
     assert event.EventType() == data.ce_type
     assert event.EventID() == data.ce_id
+    print(event.ContentType(), data.contentType)
     assert event.ContentType() == data.contentType
 
 

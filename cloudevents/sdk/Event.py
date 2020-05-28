@@ -21,12 +21,10 @@ from cloudevents.sdk import converters
 from cloudevents.sdk.event import v1
 class Event(base.BaseEvent):
     # TODO: SUPPORT structured calls
-    def __init__(self, headers: dict, binary: bool = True, data: typing.IO, f: typing.Callable = lambda x: x):
-        required_fields = ['ce-id', 'ce-source', 'ce-type', 'ce-specversion']
-        optional_fields = ['content-type', 'content-encoding', 'schema', 'subject', 'time']
-
+    def __init__(self, headers: dict, data: any,  binary: bool = True, f: typing.Callable = lambda x: x):
+        headers = {key.lower(): headers[key] for key in headers}
         if binary:
-            for field in required_fields:
+            for field in base._ce_required_fields:
                 if field not in headers:
                     raise TypeError("parameter headers has no required attribute {0}".format(field))
 
@@ -35,17 +33,18 @@ class Event(base.BaseEvent):
                         field, type(headers[field])
                     ))
 
-            for field in optional_fields:
+            for field in base._ce_optional_fields:
                 if field in headers and not isinstance(headers[field], str):
                     raise TypeError("in parameter headers attribute {0} expected type str but found type {1}".format(
                         field, type(headers[field])
                     ))
         else:
             raise Exception("not implemented")
-
+        self.headers = headers
+        self.data = data
         self.m = marshaller.NewDefaultHTTPMarshaller()
         self.event_handler = v1.Event()
-        self.m.FromRequest(self.event_handler, headers, data, f)
+        self.m.FromRequest(self.event_handler, self.headers, self.data, f)
     
     def emit(self, url: str, binary: bool = True) -> None:
         if binary:
@@ -72,3 +71,6 @@ class Event(base.BaseEvent):
             data=structured_data.getvalue()
         )
         return response
+    
+    def __repr__(self):
+        return json.dumps({'Event': {'headers': self.headers, 'data': self.data}}, indent=4)
