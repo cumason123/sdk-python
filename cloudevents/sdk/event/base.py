@@ -16,7 +16,7 @@ import io
 import json
 import typing
 _ce_required_fields = {'ce-id', 'ce-source', 'ce-type', 'ce-specversion'}
-_ce_optional_fields = {'content-type', 'content-encoding', 'schema', 'subject', 'time'}
+_ce_optional_fields = {'content-type', 'content-encoding', 'ce-schema', 'ce-subject', 'ce-time'}
 
 # TODO(slinkydeveloper) is this really needed?
 class EventGetterSetter(object):
@@ -81,6 +81,7 @@ class BaseEvent(EventGetterSetter):
     def Properties(self, with_nullable=False) -> dict:
         props = dict()
         for name, value in self.__dict__.items():
+            print(name, value, value.get())
             if str(name).startswith("ce__"):
                 v = value.get()
                 if v is not None or with_nullable:

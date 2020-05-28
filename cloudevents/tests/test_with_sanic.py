@@ -46,6 +46,7 @@ async def echo(request):
         lambda x: x
     )
     hs, body = m.ToRequest(event, converters.TypeBinary, lambda x: x)
+    print('README STUFF', hs, body)
     return response.text(body, headers=hs)
 
 
@@ -68,7 +69,7 @@ def test_web_app_echo():
     _, r = app.test_client.post("/echo", headers=test_data.headers[v02.Event], data=test_data.body)
     assert r.status == 200
     print('README\n\n', dict(r.headers))
-
+    print('test time', test_data.headers[v02.Event])
     event = m.FromRequest(v02.Event(), dict(r.headers), r.body, lambda x: x)
     assert event is not None
     props = event.Properties()
