@@ -81,7 +81,6 @@ class BaseEvent(EventGetterSetter):
     def Properties(self, with_nullable=False) -> dict:
         props = dict()
         for name, value in self.__dict__.items():
-            print(name, value, value.get())
             if str(name).startswith("ce__"):
                 v = value.get()
                 if v is not None or with_nullable:

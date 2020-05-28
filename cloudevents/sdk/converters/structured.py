@@ -24,7 +24,6 @@ class JSONHTTPCloudEventConverter(base.Converter):
     MIME_TYPE = "application/cloudevents+json"
 
     def can_read(self, content_type: str) -> bool:
-        print(content_type)
         return content_type and content_type.startswith(self.MIME_TYPE)
 
     def event_supported(self, event: object) -> bool:
@@ -38,12 +37,14 @@ class JSONHTTPCloudEventConverter(base.Converter):
         body: typing.IO,
         data_unmarshaller: typing.Callable,
     ) -> event_base.BaseEvent:
+        print('Unpredictable structured read')
         event.UnmarshalJSON(body, data_unmarshaller)
         return event
 
     def write(
         self, event: event_base.BaseEvent, data_marshaller: typing.Callable
     ) -> (dict, typing.IO):
+        print('Unpredictable structured write')
         http_headers = {"content-type": self.MIME_TYPE}
         return http_headers, event.MarshalJSON(data_marshaller)
 

@@ -25,7 +25,7 @@ if __name__ == "__main__":
 
     # Configuration
     headers = {
-        "content-type": "application/cloudevents+json",
+        "content-type": "application/json",
         "ce-id": "my-id",
         "ce-source": "<event-source>",
         "ce-type": "cloudevent.event.type",
@@ -36,4 +36,3 @@ if __name__ == "__main__":
     event = Event(headers=headers, data=data)
     print(event)
     event.emit(url)
-
