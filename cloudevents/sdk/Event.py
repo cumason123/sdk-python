@@ -19,26 +19,29 @@ from cloudevents.sdk.event import base
 from cloudevents.sdk import marshaller
 from cloudevents.sdk import converters
 from cloudevents.sdk.event import v1
-class BinaryEvent(base.BaseEvent):
+class Event(base.BaseEvent):
     # TODO: SUPPORT structured calls
-    def __init__(self, headers: dict, data: typing.IO, f: typing.Callable = lambda x: x):
+    def __init__(self, headers: dict, binary: bool = True, data: typing.IO, f: typing.Callable = lambda x: x):
         required_fields = ['ce-id', 'ce-source', 'ce-type', 'ce-specversion']
         optional_fields = ['content-type', 'content-encoding', 'schema', 'subject', 'time']
 
-        for field in required_fields:
-            if field not in headers:
-                raise TypeError("parameter headers has no required attribute {0}".format(field))
+        if binary:
+            for field in required_fields:
+                if field not in headers:
+                    raise TypeError("parameter headers has no required attribute {0}".format(field))
 
-            if not isinstance(headers[field], str):
-                raise TypeError("in parameter headers attribute {0} expected type str but found type {1}".format(
-                    field, type(headers[field])
-                ))
+                if not isinstance(headers[field], str):
+                    raise TypeError("in parameter headers attribute {0} expected type str but found type {1}".format(
+                        field, type(headers[field])
+                    ))
 
-        for field in optional_fields:
-            if field in headers and not isinstance(headers[field], str):
-                raise TypeError("in parameter headers attribute {0} expected type str but found type {1}".format(
-                    field, type(headers[field])
-                ))
+            for field in optional_fields:
+                if field in headers and not isinstance(headers[field], str):
+                    raise TypeError("in parameter headers attribute {0} expected type str but found type {1}".format(
+                        field, type(headers[field])
+                    ))
+        else:
+            raise Exception("not implemented")
 
         self.m = marshaller.NewDefaultHTTPMarshaller()
         self.event_handler = v1.Event()
