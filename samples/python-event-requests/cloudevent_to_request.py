@@ -1,0 +1,38 @@
+# All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License"); you may
+#    not use this file except in compliance with the License. You may obtain
+#    a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+import sys
+import io
+from cloudevents.sdk.Event import Event
+
+if __name__ == "__main__":
+
+    if len(sys.argv) < 2:
+        sys.exit("Usage: python with_requests.py "
+                 "<CloudEvents controller URL>")
+
+    url = sys.argv[1]
+
+    # Configuration
+    headers = {
+        "content-type": "application/cloudevents+json",
+        "ce-id": "my-id",
+        "ce-source": "<event-source>",
+        "ce-type": "cloudevent.event.type",
+        "ce-specversion": "0.2"
+    }
+    data = io.BytesIO(b'{"data": {"name": "curt"}}')
+
+    event = Event(headers=headers, data=data)
+    event.emit(url)
+
