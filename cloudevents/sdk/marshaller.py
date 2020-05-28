@@ -62,6 +62,7 @@ class HTTPMarshaller(object):
             raise exceptions.InvalidDataUnmarshaller()
 
         # Lower all header keys
+        headers = {key.lower(): headers[key] for key in headers}
         content_type = headers.get("content-type", None)
 
         for cnvrtr in self.__converters:
@@ -110,8 +111,8 @@ def NewDefaultHTTPMarshaller() -> HTTPMarshaller:
     """
     return HTTPMarshaller(
         [
-            binary.NewBinaryHTTPCloudEventConverter(),
             structured.NewJSONHTTPCloudEventConverter(),
+            binary.NewBinaryHTTPCloudEventConverter(),
         ]
     )
 

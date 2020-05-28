@@ -67,6 +67,8 @@ def test_web_app_integration():
 def test_web_app_echo():
     _, r = app.test_client.post("/echo", headers=test_data.headers[v02.Event], data=test_data.body)
     assert r.status == 200
+    print('README\n\n', dict(r.headers))
+
     event = m.FromRequest(v02.Event(), dict(r.headers), r.body, lambda x: x)
     assert event is not None
     props = event.Properties()

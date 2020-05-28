@@ -117,9 +117,11 @@ class BaseEvent(EventGetterSetter):
         return io.BytesIO(json.dumps(props).encode("utf-8"))
 
     def UnmarshalJSON(self, b: typing.IO, data_unmarshaller: typing.Callable):
-        print(str(b))
-        raw_ce = b
-        # raw_ce = json.load(b)
+        if isinstance(b, io.BytesIO) or isinstance(b, io.StringIO):
+            raw_ce = json.load(b)
+        else:
+            raw_ce = b
+
         for name, value in raw_ce.items():
             if name == "data":
                 value = data_unmarshaller(value)
