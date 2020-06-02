@@ -16,9 +16,17 @@ import io
 import json
 import typing
 _ce_required_fields = {'ce-id', 'ce-source', 'ce-type', 'ce-specversion'}
-_ce_optional_fields = {'content-type', 'content-encoding', 'ce-schema', 'ce-subject', 'ce-time'}
+_ce_optional_fields = {
+    'content-type',
+    'content-encoding',
+    'ce-schema',
+    'ce-subject',
+    'ce-time'
+}
 
 # TODO(slinkydeveloper) is this really needed?
+
+
 class EventGetterSetter(object):
 
     def CloudEventVersion(self) -> str:
@@ -134,7 +142,8 @@ class BaseEvent(EventGetterSetter):
         data_unmarshaller: typing.Callable
     ):
         keys = set(headers)
-        ce_fields = (keys & _ce_required_fields).union(keys & _ce_optional_fields)
+        ce_fields = (keys & _ce_required_fields).union(
+            keys & _ce_optional_fields)
         headers = {key: headers[key] for key in ce_fields}
         for header, value in headers.items():
             header = header.lower()
