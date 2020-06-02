@@ -59,7 +59,8 @@ class Event(base.BaseEvent):
         if binary:
             for field in base._ce_required_fields:
                 if field not in headers:
-                    raise TypeError("parameter headers has no required attribute {0}".format(field))
+                    raise TypeError(
+                        "parameter headers has no required attribute {0}".format(field))
 
                 if not isinstance(headers[field], str):
                     raise TypeError("in parameter headers attribute {0} expected type str but found type {1}".format(
@@ -120,7 +121,7 @@ class Event(base.BaseEvent):
         :type url: str
         """
         structured_headers, structured_data = self.m.ToRequest(
-            event, converters.TypeStructured, json.dumps
+            self.event_handler, converters.TypeStructured, json.dumps
         )
         requests.post(url,
                       headers=structured_headers,
