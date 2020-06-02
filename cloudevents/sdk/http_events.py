@@ -44,29 +44,28 @@ Licensing:
 import json
 import typing
 
+import requests
+
 from cloudevents.sdk import converters
 from cloudevents.sdk import marshaller
 
 from cloudevents.sdk.event import base
 from cloudevents.sdk.event import v1
 
-import requests
-
 
 class Event(base.BaseEvent):
     """
     Python Friendly class currently by cloudevents.sdk.event.v1
     Currently only supports binary events
-
-    TODO: SUPPORT structured calls
-    TODO: Test application/json content-type
-    TODO: Support other HTTP Methods in emit_binary_event & emit_structured_event
-    TODO: Refactor content-type to datacontenttype
-    TODO: Implement testing
     """
 
-    def __init__(self, headers: dict, data: any, binary: bool = True,
-                 f: typing.Callable = lambda x: x):
+    def __init__(
+            self,
+            headers: dict,
+            data: any,
+            binary: bool = True,
+            f: typing.Callable = lambda x: x
+    ):
         """
         Event HTTP Constructor
         :param headers: a dict containing cloudevent specified metadata
