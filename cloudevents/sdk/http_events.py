@@ -44,13 +44,13 @@ Licensing:
 import json
 import typing
 
-import requests
-
 from cloudevents.sdk import converters
 from cloudevents.sdk import marshaller
 
 from cloudevents.sdk.event import base
 from cloudevents.sdk.event import v1
+
+import requests
 
 
 class Event(base.BaseEvent):
@@ -68,7 +68,7 @@ class Event(base.BaseEvent):
     ):
         """
         Event HTTP Constructor
-        :param headers: a dict containing cloudevent specified metadata
+        :param headers: a dict with cloudevent specified metadata
             e.g. {
                 "content-type": "application/cloudevents+json",
                 "ce-id": "16fb5f0b-211e-1102-3dfe-ea6e2806f124",
@@ -79,7 +79,7 @@ class Event(base.BaseEvent):
         :type headers: dict
         :param data: a data object to be stored inside Event
         :type data: any
-        :param binary: a bool indicating whether this event defaults to binary events
+        :param binary: a bool indicating binary events
         :type binary: bool
         :param f: callable function for reading/extracting data
         :type f: typing.Callable
@@ -89,7 +89,9 @@ class Event(base.BaseEvent):
             for field in base._ce_required_fields:
                 if field not in headers:
                     raise TypeError(
-                        "parameter headers has no required attribute {0}".format(field))
+                        "parameter headers has no required attribute {0}".format(
+                            field
+                        ))
 
                 if not isinstance(headers[field], str):
                     raise TypeError("in parameter headers attribute "
