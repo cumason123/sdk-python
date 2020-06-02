@@ -1,6 +1,7 @@
 
 from cloudevents.sdk.http_events import Event
 from flask import Flask, request
+import json
 app = Flask(__name__)
 
 
@@ -12,9 +13,8 @@ def root():
 @app.route('/event', methods=['POST'])
 def hello():
     # Saving data in event as json object
-    data = request.json
     headers = dict(request.headers)
-    event = Event(headers=headers, data=data)
+    event = Event(headers=headers, data=request.json)
     print(event)
     return "Hello World!"
 

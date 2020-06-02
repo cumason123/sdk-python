@@ -25,7 +25,6 @@ if __name__ == "__main__":
 
     # Configuration
     headers = {
-        "content-type": "application/json",
         "ce-id": "my-id",
         "ce-source": "<event-source>",
         "ce-type": "cloudevent.event.type",

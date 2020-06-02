@@ -41,6 +41,8 @@ Licensing:
 """
 
 
+import copy
+
 import json
 import typing
 
@@ -121,7 +123,12 @@ class Event(base.BaseEvent):
             f
         )
 
-    def emit(self, url: str, binary: bool = True) -> None:
+    def emit(
+        self,
+        url: str,
+        binary: bool = True,
+        method: typing.Callable = requests.post
+    ) -> any:
         """
         Sends HTTP POST event to given url
 
@@ -131,16 +138,24 @@ class Event(base.BaseEvent):
         :type binary: bool
         """
         if binary:
-            self.emit_binary_event(url)
+            return self.emit_binary_event(url, method=method)
         else:
-            self.emit_structured_event(url)
+            return self.emit_structured_event(url)
 
-    def emit_binary_event(self, url: str):
+    def emit_binary_event(
+        self,
+        url: str,
+        method: typing.Callable = requests.post
+    ) -> any:
         """
         Sends HTTP POST binary event to given url
 
         :param url: a string referencing target to send event to
         :type url: str
+        :param method: callable function through which we emit the request
+        :type method: typing.Callable
+        :return: a request response from method
+        :rtype: method(url, headers, data)
         """
         binary_headers, binary_data = self.marshall.ToRequest(
             self.event_handler,
@@ -152,25 +167,33 @@ class Event(base.BaseEvent):
         if not isinstance(binary_data, str):
             binary_data = json.dumps(binary_data)
 
-        requests.post(
+        return method(
             url,
             headers=binary_headers,
             json=binary_data
         )
 
-    def emit_structured_event(self, url):
+    def emit_structured_event(
+        self,
+        url,
+        method: typing.Callable = requests.post
+    ) -> any:
         """
         Sends HTTP POST structured event to given url
 
         :param url: a string referencing target to send event to
         :type url: str
+        :param method: callable function through which we emit the request
+        :type method: typing.Callable
+        :return: a request response from method
+        :rtype: method(url, headers, data)
         """
         structured_headers, structured_data = self.marshall.ToRequest(
             self.event_handler,
             converters.TypeStructured,
             json.dumps
         )
-        requests.post(
+        return method(
             url,
             headers=structured_headers,
             json=structured_data.getvalue()
@@ -186,3 +209,9 @@ class Event(base.BaseEvent):
             },
             indent=4
         )
+
+    def toDict(self):
+        return {
+            'headers': copy.deepcopy(self.headers),
+            'data': copy.deepcopy(self.data)
+        }

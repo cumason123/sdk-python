@@ -21,6 +21,30 @@ source = "pytest"
 eventTime = "2018-10-23T12:28:23.3464579Z"
 body = '{"name":"john"}'
 
+http_event_test_headers = [
+    {
+        "ce-source": "<event-source>",
+        "ce-type": "cloudevent.event.type",
+        "ce-specversion": "0.2"
+    }, {
+        "ce-id": "my-id",
+        "ce-type": "cloudevent.event.type",
+        "ce-specversion": "0.2"
+    }, {
+        "ce-id": "my-id",
+        "ce-source": "<event-source>",
+        "ce-specversion": "0.2"
+    }, {
+        "ce-id": "my-id",
+        "ce-source": "<event-source>",
+        "ce-type": "cloudevent.event.type",
+    }
+]
+http_event_ce_json = {
+    "payload-content": "Hello World!"
+}
+
+
 headers = {
     v02.Event: {
         "ce-specversion": "0.2",

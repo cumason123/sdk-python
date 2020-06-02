@@ -51,7 +51,7 @@ async def echo(request):
 
 
 def test_reusable_marshaller():
-    for i in range(10):
+    for _ in range(10):
         _, r = app.test_client.post(
             "/is-ok", headers=test_data.headers[v02.Event], data=test_data.body
         )
@@ -66,7 +66,11 @@ def test_web_app_integration():
 
 
 def test_web_app_echo():
-    _, r = app.test_client.post("/echo", headers=test_data.headers[v02.Event], data=test_data.body)
+    _, r = app.test_client.post(
+        "/echo",
+        headers=test_data.headers[v02.Event],
+        data=test_data.body
+    )
     assert r.status == 200
     print('README\n\n', dict(r.headers))
     print('test time', test_data.headers[v02.Event])
