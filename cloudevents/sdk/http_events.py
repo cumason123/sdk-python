@@ -18,13 +18,12 @@
 # TODO: Refactor content-type to datacontenttype
 # TODO: Implement testing
 
-import typing
 import json
+import typing
 import requests
-import io
 
-from cloudevents.sdk import marshaller
 from cloudevents.sdk import converters
+from cloudevents.sdk import marshaller
 
 from cloudevents.sdk.event import base
 from cloudevents.sdk.event import v1
@@ -36,7 +35,8 @@ class Event(base.BaseEvent):
     Currently only supports binary events
     """
 
-    def __init__(self, headers: dict, data: any, binary: bool = True, f: typing.Callable = lambda x: x):
+    def __init__(self, headers: dict, data: any, binary: bool = True,
+                 f: typing.Callable = lambda x: x):
         """
         Event HTTP Constructor
         :param headers: a dict containing cloudevent specified metadata
@@ -50,7 +50,8 @@ class Event(base.BaseEvent):
         :type headers: dict
         :param data: a data object to be stored inside Event
         :type data: any
-        :param binary: a bool indicating whether this event defaults to binary events
+        :param binary: a bool indicating whether this event 
+            defaults to binary events
         :type binary: bool
         :param f: callable function for reading/extracting data
         :type f: typing.Callable
@@ -63,15 +64,17 @@ class Event(base.BaseEvent):
                         "parameter headers has no required attribute {0}".format(field))
 
                 if not isinstance(headers[field], str):
-                    raise TypeError("in parameter headers attribute {0} expected type str but found type {1}".format(
-                        field, type(headers[field])
-                    ))
+                    raise TypeError("in parameter headers attribute "
+                                    "{0} expected type str but found type {1}".format(
+                                        field, type(headers[field])
+                                    ))
 
             for field in base._ce_optional_fields:
                 if field in headers and not isinstance(headers[field], str):
-                    raise TypeError("in parameter headers attribute {0} expected type str but found type {1}".format(
-                        field, type(headers[field])
-                    ))
+                    raise TypeError("in parameter headers attribute "
+                                    "{0} expected type str but found type {1}".format(
+                                        field, type(headers[field])
+                                    ))
         else:
             raise Exception("not implemented")
         self.headers = headers

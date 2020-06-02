@@ -13,7 +13,7 @@
 #    under the License.
 import sys
 import io
-from cloudevents.sdk.events import Event
+from cloudevents.sdk.http_events import Event
 
 if __name__ == "__main__":
 

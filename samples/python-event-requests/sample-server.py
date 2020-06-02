@@ -1,5 +1,5 @@
 
-from cloudevents.sdk.events import Event
+from cloudevents.sdk.http_events import Event
 from flask import Flask, request
 app = Flask(__name__)
 
