@@ -89,22 +89,25 @@ class Event(base.BaseEvent):
             for field in base._ce_required_fields:
                 if field not in headers:
                     raise TypeError(
-                        "parameter headers has no required attribute {0}".format(
+                        "parameter headers has no required attribute {0}"
+                        .format(
                             field
                         ))
 
                 if not isinstance(headers[field], str):
-                    raise TypeError("in parameter headers attribute "
-                                    "{0} expected type str but found type {1}".format(
-                                        field, type(headers[field])
-                                    ))
+                    raise TypeError(
+                        "in parameter headers attribute "
+                        "{0} expected type str but found type {1}".format(
+                            field, type(headers[field])
+                        ))
 
             for field in base._ce_optional_fields:
                 if field in headers and not isinstance(headers[field], str):
-                    raise TypeError("in parameter headers attribute "
-                                    "{0} expected type str but found type {1}".format(
-                                        field, type(headers[field])
-                                    ))
+                    raise TypeError(
+                        "in parameter headers attribute "
+                        "{0} expected type str but found type {1}".format(
+                            field, type(headers[field])
+                        ))
         else:
             raise Exception("not implemented")
         self.headers = headers
@@ -163,4 +166,12 @@ class Event(base.BaseEvent):
                       )
 
     def __repr__(self):
-        return json.dumps({'Event': {'headers': self.headers, 'data': self.data}}, indent=4)
+        return json.dumps(
+            {
+                'Event': {
+                    'headers': self.headers,
+                    'data': self.data
+                }
+            },
+            indent=4
+        )
