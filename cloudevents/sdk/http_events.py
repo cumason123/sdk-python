@@ -1,26 +1,48 @@
-# All Rights Reserved.
-#
-#    Licensed under the Apache License, Version 2.0 (the "License"); you may
-#    not use this file except in compliance with the License. You may obtain
-#    a copy of the License at
-#
-#         http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#    License for the specific language governing permissions and limitations
-#    under the License.
+"""This module maintains HTTP/HTTPS binary cloudevents
 
-# TODO: SUPPORT structured calls
-# TODO: Test application/json content-type
-# TODO: Support other HTTP Methods in emit_binary_event & emit_structured_event
-# TODO: Refactor content-type to datacontenttype
-# TODO: Implement testing
+This module currently only supports binary events and http/https
+formatted requests. You're able to use the internal Event class
+to emit cloudevent formatted HTTP/HTTPS requests to API endpoints,
+and to retrieve binary cloudevent formatted HTTP/HTTPS headers and data.
+
+Example:
+    To create an event which interacts with cloudevents,
+    do the following:
+        > from cloudevents.sdk.http_events import Event
+        > Event(headers=headers, data=data)
+        > print(Event)
+
+Attributes:
+    Event(dict, any, bool?, typing.Callable?): module level class which
+        abstracts internal marshalling and event data structures. Provides
+        an easy to use interface into the cloudevents sdk
+
+TODO:
+    SUPPORT structured calls
+    Test application/json content-type
+    Support other HTTP Methods in emit_binary_event & emit_structured_event
+    Refactor content-type to datacontenttype
+    Implement testing
+
+Licensing:
+    All Rights Reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may obtain
+    a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+    License for the specific language governing permissions and limitations
+    under the License.
+"""
+
 
 import json
 import typing
-import requests
 
 from cloudevents.sdk import converters
 from cloudevents.sdk import marshaller
@@ -28,11 +50,19 @@ from cloudevents.sdk import marshaller
 from cloudevents.sdk.event import base
 from cloudevents.sdk.event import v1
 
+import requests
+
 
 class Event(base.BaseEvent):
     """
     Python Friendly class currently by cloudevents.sdk.event.v1
     Currently only supports binary events
+
+    TODO: SUPPORT structured calls
+    TODO: Test application/json content-type
+    TODO: Support other HTTP Methods in emit_binary_event & emit_structured_event
+    TODO: Refactor content-type to datacontenttype
+    TODO: Implement testing
     """
 
     def __init__(self, headers: dict, data: any, binary: bool = True,
@@ -50,8 +80,7 @@ class Event(base.BaseEvent):
         :type headers: dict
         :param data: a data object to be stored inside Event
         :type data: any
-        :param binary: a bool indicating whether this event 
-            defaults to binary events
+        :param binary: a bool indicating whether this event defaults to binary events
         :type binary: bool
         :param f: callable function for reading/extracting data
         :type f: typing.Callable
@@ -79,9 +108,10 @@ class Event(base.BaseEvent):
             raise Exception("not implemented")
         self.headers = headers
         self.data = data
-        self.m = marshaller.NewDefaultHTTPMarshaller()
+        self.marshall = marshaller.NewDefaultHTTPMarshaller()
         self.event_handler = v1.Event()
-        self.m.FromRequest(self.event_handler, self.headers, self.data, f)
+        self.marshall.FromRequest(
+            self.event_handler, self.headers, self.data, f)
 
     def emit(self, url: str, binary: bool = True) -> None:
         """
@@ -104,7 +134,7 @@ class Event(base.BaseEvent):
         :param url: a string referencing target to send event to
         :type url: str
         """
-        binary_headers, binary_data = self.m.ToRequest(
+        binary_headers, binary_data = self.marshall.ToRequest(
             self.event_handler, converters.TypeBinary, lambda x: x
         )
 
@@ -123,7 +153,7 @@ class Event(base.BaseEvent):
         :param url: a string referencing target to send event to
         :type url: str
         """
-        structured_headers, structured_data = self.m.ToRequest(
+        structured_headers, structured_data = self.marshall.ToRequest(
             self.event_handler, converters.TypeStructured, json.dumps
         )
         requests.post(url,
