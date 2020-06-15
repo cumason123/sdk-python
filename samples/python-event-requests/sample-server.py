@@ -13,7 +13,6 @@
 #    under the License.
 from cloudevents.sdk.http_events import Event
 from flask import Flask, request
-import json
 app = Flask(__name__)
 
 
@@ -28,7 +27,7 @@ def hello():
     headers = dict(request.headers)
     event = Event(headers=headers, data=request.json)
     print(f"Received {event}")
-    return "Hello World!"
+    return '', 204
 
 
 if __name__ == '__main__':

@@ -15,7 +15,6 @@ import sys
 import io
 from cloudevents.sdk.http_events import Event
 
-import json
 import requests
 
 if __name__ == "__main__":
@@ -35,6 +34,6 @@ if __name__ == "__main__":
     }
     data = {"payload-content": "Hello World!"}
 
-    event = Event(headers=headers, data=json.dumps(data))
+    event = Event(headers=headers, data=data)
     print(f"Sent {event}")
     requests.post(url, headers=event.headers, json=event.data)
