@@ -12,14 +12,13 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-from cloudevents.sdk import marshaller
 from cloudevents.sdk import converters
+from cloudevents.sdk import marshaller
 from cloudevents.sdk.event import v02
-
-from sanic import Sanic
-from sanic import response
-
 from cloudevents.tests import data as test_data
+
+from sanic import response
+from sanic import Sanic
 
 
 m = marshaller.NewDefaultHTTPMarshaller()

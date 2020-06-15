@@ -11,23 +11,17 @@
 #    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 #    License for the specific language governing permissions and limitations
 #    under the License.
-
-import json
-import pytest
 import io
 
-from cloudevents.sdk import exceptions
-from cloudevents.sdk import marshaller
+import json
 
-from cloudevents.sdk.event import v01
-from cloudevents.sdk.event import v02
-from cloudevents.sdk.event import v03
-from cloudevents.sdk.event import v1
-
-from cloudevents.sdk.converters import binary
-from cloudevents.sdk.converters import structured
+from cloudevents.sdk import exceptions, marshaller
+from cloudevents.sdk.converters import binary, structured
+from cloudevents.sdk.event import v01, v02, v03, v1
 
 from cloudevents.tests import data
+
+import pytest
 
 
 @pytest.mark.parametrize("event_class", [v02.Event, v03.Event, v1.Event])
@@ -100,6 +94,7 @@ def test_structured_converter_v01():
     assert event is not None
     assert event.Get("type") == (data.ce_type, True)
     assert event.Get("id") == (data.ce_id, True)
+
 
 @pytest.mark.parametrize("event_class", [v02.Event, v03.Event, v1.Event])
 def test_default_http_marshaller_with_structured(event_class):

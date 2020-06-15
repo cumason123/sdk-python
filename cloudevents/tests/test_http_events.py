@@ -12,16 +12,15 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-from sanic import Sanic
-from sanic import response
+import json
 
 from cloudevents.sdk.http_events import Event
-
-from cloudevents.tests.data import http_event_test_headers as test_headers
 from cloudevents.tests.data import http_event_ce_json as test_data
+from cloudevents.tests.data import http_event_test_headers as test_headers
 
-import requests
-import json
+from sanic import response
+from sanic import Sanic
+
 
 app = Sanic(__name__)
 

@@ -15,7 +15,14 @@
 import io
 import json
 import typing
-_ce_required_fields = {'ce-id', 'ce-source', 'ce-type', 'ce-specversion'}
+
+_ce_required_fields = {
+    'ce-id',
+    'ce-source',
+    'ce-type',
+    'ce-specversion'
+}
+
 _ce_optional_fields = {
     'content-type',
     'content-encoding',

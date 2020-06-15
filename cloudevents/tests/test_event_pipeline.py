@@ -14,15 +14,15 @@
 
 import io
 import json
-import pytest
-
-from cloudevents.sdk.event import v01, v02, v03, v1
 
 from cloudevents.sdk import converters
 from cloudevents.sdk import marshaller
 from cloudevents.sdk.converters import structured
-
+from cloudevents.sdk.event import v01, v02, v03, v1
 from cloudevents.tests import data
+
+import pytest
+
 
 @pytest.mark.parametrize("event_class", [v02.Event, v03.Event, v1.Event])
 def test_event_pipeline_upstream(event_class):

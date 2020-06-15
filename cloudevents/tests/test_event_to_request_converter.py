@@ -11,21 +11,20 @@
 #    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 #    License for the specific language governing permissions and limitations
 #    under the License.
+import copy
 
 import io
 import json
-import copy
-import pytest
 
 from cloudevents.sdk import converters
 from cloudevents.sdk import marshaller
 
 from cloudevents.sdk.converters import structured
 from cloudevents.sdk.event import v01, v02, v03, v1
-from cloudevents.sdk.event import v02
-
 
 from cloudevents.tests import data
+
+import pytest
 
 
 @pytest.mark.parametrize("event_class", [v02.Event, v03.Event, v1.Event])
