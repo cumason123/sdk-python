@@ -87,7 +87,11 @@ class Event(base.BaseEvent):
         """
         headers = {key.lower(): headers[key] for key in headers}
         if self.is_binary_cloud_event(headers):
+
+            # Headers validation for binary events
             for field in base._ce_required_fields:
+
+                # Verify field exists else throw TypeError
                 if field not in headers:
                     raise TypeError(
                         "parameter headers has no required attribute {0}"
@@ -215,9 +219,3 @@ class Event(base.BaseEvent):
             },
             indent=4
         )
-
-    def toDict(self):
-        return {
-            'headers': copy.deepcopy(self.headers),
-            'data': copy.deepcopy(self.data)
-        }
