@@ -15,7 +15,7 @@ def hello():
     # Saving data in event as json object
     headers = dict(request.headers)
     event = Event(headers=headers, data=request.json)
-    print(event)
+    print(f"Received {event}")
     return "Hello World!"
 
 

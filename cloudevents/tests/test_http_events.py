@@ -53,7 +53,11 @@ def test_emit_binary_event():
         "ce-specversion": "0.2"
     }
     event = Event(headers, test_data)
-    _, r = event.emit("/event", method=post)
+    _,r = app.test_client.post(
+        "/event", 
+        headers=event.headers, 
+        data=json.dumps(event.data)
+    )
     body = json.loads(r.body)
     for key in test_data:
         assert body[key] == test_data[key]
