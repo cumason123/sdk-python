@@ -40,7 +40,7 @@ def test_invalid_binary_headers():
         headers = test_headers[i]
         try:
             _ = Event(headers, test_data)
-        except TypeError:
+        except (TypeError, NotImplementedError):
             continue
         assert False
 

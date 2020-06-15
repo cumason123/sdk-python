@@ -65,12 +65,11 @@ class Event(base.BaseEvent):
             self,
             headers: dict,
             data: any,
-            binary: bool = True,
             f: typing.Callable = lambda x: x
     ):
         """
         Event HTTP Constructor
-        :param headers: a dict with cloudevent specified metadata
+        :param headers: a dict with HTTP headers
             e.g. {
                 "content-type": "application/cloudevents+json",
                 "ce-id": "16fb5f0b-211e-1102-3dfe-ea6e2806f124",
@@ -87,7 +86,7 @@ class Event(base.BaseEvent):
         :type f: typing.Callable
         """
         headers = {key.lower(): headers[key] for key in headers}
-        if binary:
+        if self.is_binary_cloud_event(headers):
             for field in base._ce_required_fields:
                 if field not in headers:
                     raise TypeError(
@@ -111,7 +110,8 @@ class Event(base.BaseEvent):
                             field, type(headers[field])
                         ))
         else:
-            raise Exception("not implemented")
+            raise NotImplementedError
+
         self.headers = headers
         self.data = data
         self.marshall = marshaller.NewDefaultHTTPMarshaller()
@@ -122,6 +122,12 @@ class Event(base.BaseEvent):
             self.data,
             f
         )
+
+    def is_binary_cloud_event(self, headers):
+        for field in base._ce_required_fields:
+            if field not in headers:
+                return False
+        return True
 
     def emit(
         self,
