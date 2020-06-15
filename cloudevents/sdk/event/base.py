@@ -32,8 +32,6 @@ _ce_optional_fields = {
 }
 
 # TODO(slinkydeveloper) is this really needed?
-
-
 class EventGetterSetter(object):
 
     def CloudEventVersion(self) -> str:
