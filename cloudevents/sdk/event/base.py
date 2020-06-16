@@ -23,6 +23,8 @@ _ce_required_fields = {
     'ce-specversion'
 }
 
+
+# TODO add datacontenttype?
 _ce_optional_fields = {
     'content-type',
     'content-encoding',

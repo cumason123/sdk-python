@@ -1,44 +1,16 @@
-"""This module maintains HTTP/HTTPS binary cloudevents
-
-This module currently only supports binary events and http/https
-formatted requests. You're able to use the internal Event class
-to emit cloudevent formatted HTTP/HTTPS requests to API endpoints,
-and to retrieve binary cloudevent formatted HTTP/HTTPS headers and data.
-
-Example:
-    To create an event which interacts with cloudevents,
-    do the following:
-        > from cloudevents.sdk.http_events import Event
-        > Event(headers=headers, data=data)
-        > print(Event)
-
-Attributes:
-    Event(dict, any, bool?, typing.Callable?): module level class which
-        abstracts internal marshalling and event data structures. Provides
-        an easy to use interface into the cloudevents sdk
-
-TODO:
-    SUPPORT structured calls
-    Test application/json content-type
-    Support other HTTP Methods in emit_binary_event & emit_structured_event
-    Refactor content-type to datacontenttype
-    Implement testing
-
-Licensing:
-    All Rights Reserved.
-
-    Licensed under the Apache License, Version 2.0 (the "License"); you may
-    not use this file except in compliance with the License. You may obtain
-    a copy of the License at
-
-            http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-    License for the specific language governing permissions and limitations
-    under the License.
-"""
+# All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License"); you may
+#    not use this file except in compliance with the License. You may obtain
+#    a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
 import copy
 
 import json
@@ -82,7 +54,7 @@ class Event(base.BaseEvent):
         """
         headers = {key.lower(): value for key, value in headers.items()}
         if self.is_binary_cloud_event(headers):
-
+            # TODO: add content-type support?
             # Headers validation for binary events
             for field in base._ce_required_fields:
 
@@ -109,6 +81,7 @@ class Event(base.BaseEvent):
                             field, type(headers[field])
                         ))
         else:
+            # TODO: Support structured CloudEvents
             raise NotImplementedError
 
         self.headers = copy.deepcopy(headers)
