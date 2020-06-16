@@ -40,7 +40,7 @@ test_cloudevent_headers = [
         "ce-type": "cloudevent.event.type",
     }
 ]
-http_event_ce_json = {
+test_cloudevent_body = {
     "payload-content": "Hello World!"
 }
 

@@ -14,7 +14,7 @@
 import json
 
 from cloudevents.sdk.http_events import Event
-from cloudevents.tests.data import http_event_ce_json as test_data
+from cloudevents.tests.data import test_cloudevent_body as test_data
 from cloudevents.tests.data import test_cloudevent_headers as test_headers
 
 from sanic import response
