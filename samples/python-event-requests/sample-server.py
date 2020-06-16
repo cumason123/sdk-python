@@ -16,16 +16,15 @@ from flask import Flask, request
 app = Flask(__name__)
 
 
-@app.route('/', methods=['GET'])
-def root():
-    return "Hello World!"
-
-
 @app.route('/event', methods=['POST'])
 def hello():
-    # Saving data in event as json object
+    # Convert headers to dict
     headers = dict(request.headers)
+
+    # Create a Cloud Event
     event = CloudEvent(headers=headers, data=request.json)
+
+    # Print the received cloud event
     print(f"Received {event}")
     return '', 204
 

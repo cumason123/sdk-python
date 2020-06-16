@@ -18,14 +18,15 @@ from cloudevents.sdk.http_events import CloudEvent
 import requests
 
 if __name__ == "__main__":
-
+    # expects a url from command line. e.g.
+    #     python3 sample-server.py http://localhost:3000/event
     if len(sys.argv) < 2:
         sys.exit("Usage: python with_requests.py "
                  "<CloudEvents controller URL>")
 
     url = sys.argv[1]
 
-    # Configuration
+    # CloudEvent headers and data
     headers = {
         "ce-id": "my-id",
         "ce-source": "<event-source>",
@@ -34,6 +35,10 @@ if __name__ == "__main__":
     }
     data = {"payload-content": "Hello World!"}
 
+    # Create a CloudEvent
     event = CloudEvent(headers=headers, data=data)
+
+    # Print the created CloudEvent then send it to some url we got from
+    # Command line
     print(f"Sent {event}")
     requests.post(url, headers=event.headers, json=event.data)
