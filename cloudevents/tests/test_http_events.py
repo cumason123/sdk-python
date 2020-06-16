@@ -13,12 +13,16 @@
 #    under the License.
 import json
 
+import copy
+
 from cloudevents.sdk.http_events import CloudEvent
 from cloudevents.tests.data import test_cloudevent_body as test_data
 from cloudevents.tests.data import test_cloudevent_headers as test_headers
 
 from sanic import response
 from sanic import Sanic
+
+import pytest
 
 
 app = Sanic(__name__)
@@ -36,7 +40,7 @@ async def echo(request):
 
 def test_invalid_binary_headers():
     for i in range(len(test_headers)):
-        headers = test_headers[i]
+        headers = copy.copy(test_headers[i])
         try:
             # Testing error handling on CloudEvent constructor
             _ = CloudEvent(headers, test_data)
@@ -45,15 +49,17 @@ def test_invalid_binary_headers():
             # and NotImplementedError because structured calls aren't
             # implemented
             continue
+        print(headers)
         assert False
 
 
-def test_emit_binary_event():
+@pytest.mark.parametrize("specversion", ['1.0', '0.3'])
+def test_emit_binary_event(specversion):
     headers = {
         "ce-id": "my-id",
         "ce-source": "<event-source>",
         "ce-type": "cloudevent.event.type",
-        "ce-specversion": "1.0"
+        "ce-specversion": specversion
     }
     event = CloudEvent(headers, test_data)
     _, r = app.test_client.post(
@@ -71,12 +77,13 @@ def test_emit_binary_event():
     assert r.status_code == 200
 
 
-def test_missing_ce_prefix_binary_event():
+@pytest.mark.parametrize("specversion", ['1.0', '0.3'])
+def test_missing_ce_prefix_binary_event(specversion):
     headers = {
         "ce-id": "my-id",
         "ce-source": "<event-source>",
         "ce-type": "cloudevent.event.type",
-        "ce-specversion": "1.0"
+        "ce-specversion": specversion
     }
     for key in headers:
         val = headers.pop(key)
@@ -95,7 +102,8 @@ def test_missing_ce_prefix_binary_event():
         assert False
 
 
-def test_valid_cloud_events():
+@pytest.mark.parametrize("specversion", ['1.0', '0.3'])
+def test_valid_cloud_events(specversion):
     # Test creating multiple cloud events
     events_queue = []
     headers = {}
@@ -105,7 +113,7 @@ def test_valid_cloud_events():
             "ce-id": f"id{i}",
             "ce-source": f"source{i}.com.test",
             "ce-type": f"cloudevent.test.type",
-            "ce-specversion": "1.0"
+            "ce-specversion": specversion
         }
         data = {'payload': f"payload-{i}"}
         events_queue.append(CloudEvent(headers, data))
@@ -116,4 +124,5 @@ def test_valid_cloud_events():
 
         assert headers['ce-id'] == f"id{i}"
         assert headers['ce-source'] == f"source{i}.com.test"
+        assert headers['ce-specversion'] == specversion
         assert data['payload'] == f"payload-{i}"
