@@ -62,6 +62,8 @@ def test_emit_binary_event():
         data=json.dumps(event.data)
     )
     body = json.loads(r.body)
+
+    # Check response fields
     for key in test_data:
         assert body[key] == test_data[key]
     for key in headers:

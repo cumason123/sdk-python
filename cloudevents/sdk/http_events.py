@@ -57,28 +57,30 @@ class CloudEvent(base.BaseEvent):
             # TODO: add content-type support?
             # Headers validation for binary events
             for field in base._ce_required_fields:
-
+                ce_prefixed_field = f"ce-{field}"
                 # Verify field exists else throw TypeError
-                if field not in headers:
+                if ce_prefixed_field not in headers:
                     raise TypeError(
                         "parameter headers has no required attribute {0}"
                         .format(
-                            field
+                            ce_prefixed_field
                         ))
 
-                if not isinstance(headers[field], str):
+                if not isinstance(headers[ce_prefixed_field], str):
                     raise TypeError(
                         "in parameter headers attribute "
                         "{0} expected type str but found type {1}".format(
-                            field, type(headers[field])
+                            ce_prefixed_field, type(headers[ce_prefixed_field])
                         ))
 
             for field in base._ce_optional_fields:
-                if field in headers and not isinstance(headers[field], str):
+                ce_prefixed_field = f"ce-{field}"
+                if ce_prefixed_field in headers and not \
+                        isinstance(headers[ce_prefixed_field], str):
                     raise TypeError(
                         "in parameter headers attribute "
                         "{0} expected type str but found type {1}".format(
-                            field, type(headers[field])
+                            ce_prefixed_field, type(headers[ce_prefixed_field])
                         ))
         else:
             # TODO: Support structured CloudEvents
@@ -97,7 +99,7 @@ class CloudEvent(base.BaseEvent):
 
     def is_binary_cloud_event(self, headers):
         for field in base._ce_required_fields:
-            if field not in headers:
+            if f"ce-{field}" not in headers:
                 return False
         return True
 

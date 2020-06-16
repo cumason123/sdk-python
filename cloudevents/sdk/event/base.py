@@ -17,20 +17,18 @@ import json
 import typing
 
 _ce_required_fields = {
-    'ce-id',
-    'ce-source',
-    'ce-type',
-    'ce-specversion'
+    'id',
+    'source',
+    'type',
+    'specversion'
 }
 
 
-# TODO add datacontenttype?
 _ce_optional_fields = {
-    'content-type',
-    'content-encoding',
-    'ce-schema',
-    'ce-subject',
-    'ce-time'
+    'datacontenttype',
+    'schema',
+    'subject',
+    'time'
 }
 
 
@@ -146,13 +144,6 @@ class BaseEvent(EventGetterSetter):
         body: typing.IO,
         data_unmarshaller: typing.Callable
     ):
-        # Extract only CloudEvent fields from headers
-        ce_fields = [
-            field for field in headers if
-            (field in _ce_required_fields) or (field in _ce_optional_fields)
-        ]
-
-        headers = {key: headers[key] for key in ce_fields}
         for header, value in headers.items():
             header = header.lower()
             if header == "content-type":
