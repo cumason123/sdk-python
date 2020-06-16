@@ -44,13 +44,10 @@ import copy
 import json
 import typing
 
-from cloudevents.sdk import converters
 from cloudevents.sdk import marshaller
 
 from cloudevents.sdk.event import base
 from cloudevents.sdk.event import v1
-
-import requests
 
 
 class Event(base.BaseEvent):
@@ -114,8 +111,8 @@ class Event(base.BaseEvent):
         else:
             raise NotImplementedError
 
-        self.headers = headers
-        self.data = data
+        self.headers = copy.deepcopy(headers)
+        self.data = copy.deepcopy(data)
         self.marshall = marshaller.NewDefaultHTTPMarshaller()
         self.event_handler = v1.Event()
         self.marshall.FromRequest(
