@@ -31,7 +31,7 @@ if __name__ == "__main__":
         "ce-id": "my-id",
         "ce-source": "<event-source>",
         "ce-type": "cloudevent.event.type",
-        "ce-specversion": "0.2"
+        "ce-specversion": "1.0"
     }
     data = {"payload-content": "Hello World!"}
 
