@@ -35,13 +35,15 @@ async def echo(request):
 
 
 def test_invalid_binary_headers():
-    # if a required ce field is missing, cloudevent constructor will throw
-    # a TypeError
     for i in range(len(test_headers)):
         headers = test_headers[i]
         try:
+            # Testing error handling on CloudEvent constructor
             _ = CloudEvent(headers, test_data)
         except (TypeError, NotImplementedError):
+            # CloudEvent constructor throws TypeError if missing required field
+            # and NotImplementedError because structured calls aren't
+            # implemented
             continue
         assert False
 
