@@ -19,7 +19,7 @@ import typing
 from cloudevents.sdk import marshaller
 
 from cloudevents.sdk.event import base
-from cloudevents.sdk.event import v1
+from cloudevents.sdk.event import v1, v03
 
 
 class CloudEvent(base.BaseEvent):
@@ -53,6 +53,7 @@ class CloudEvent(base.BaseEvent):
         :type data_unmarshaller: typing.Callable
         """
         headers = {key.lower(): value for key, value in headers.items()}
+        event_version = None
         if self.is_binary_cloud_event(headers):
 
             # Headers validation for binary events
@@ -83,6 +84,14 @@ class CloudEvent(base.BaseEvent):
                         "{0} expected type str but found type {1}".format(
                             ce_prefixed_field, type(headers[ce_prefixed_field])
                         ))
+
+            if headers['ce-specversion'] == '1.0':
+                event_version = v1.Event
+            elif headers['ce-specversion'] == '0.3':
+                event_version = v03.Event
+            else:
+                raise TypeError(f"specversion {headers['ce-specversion']} "
+                                "currently unsupported")
         else:
             # TODO: Support structured CloudEvents
             raise NotImplementedError
@@ -90,7 +99,7 @@ class CloudEvent(base.BaseEvent):
         self.headers = copy.deepcopy(headers)
         self.data = copy.deepcopy(data)
         self.marshall = marshaller.NewDefaultHTTPMarshaller()
-        self.event_handler = v1.Event()
+        self.event_handler = event_version()
         self.marshall.FromRequest(
             self.event_handler,
             self.headers,
