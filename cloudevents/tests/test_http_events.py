@@ -35,6 +35,8 @@ async def echo(request):
 
 
 def test_invalid_binary_headers():
+    # if a required ce field is missing, cloudevent constructor will throw
+    # a TypeError
     for i in range(len(test_headers)):
         headers = test_headers[i]
         try:
