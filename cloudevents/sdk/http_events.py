@@ -19,7 +19,7 @@ import typing
 from cloudevents.sdk import marshaller
 
 from cloudevents.sdk.event import base
-from cloudevents.sdk.event import v1, v03
+from cloudevents.sdk.event import v03, v1
 
 
 class CloudEvent(base.BaseEvent):
