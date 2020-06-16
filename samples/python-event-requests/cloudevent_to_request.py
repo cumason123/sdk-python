@@ -13,7 +13,7 @@
 #    under the License.
 import sys
 import io
-from cloudevents.sdk.http_events import Event
+from cloudevents.sdk.http_events import CloudEvent
 
 import requests
 
@@ -34,6 +34,6 @@ if __name__ == "__main__":
     }
     data = {"payload-content": "Hello World!"}
 
-    event = Event(headers=headers, data=data)
+    event = CloudEvent(headers=headers, data=data)
     print(f"Sent {event}")
     requests.post(url, headers=event.headers, json=event.data)

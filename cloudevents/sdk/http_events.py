@@ -22,7 +22,7 @@ from cloudevents.sdk.event import base
 from cloudevents.sdk.event import v1
 
 
-class Event(base.BaseEvent):
+class CloudEvent(base.BaseEvent):
     """
     Python Friendly class currently by cloudevents.sdk.event.v1
     Currently only supports binary events

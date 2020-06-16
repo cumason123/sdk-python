@@ -13,7 +13,7 @@
 #    under the License.
 import json
 
-from cloudevents.sdk.http_events import Event
+from cloudevents.sdk.http_events import CloudEvent
 from cloudevents.tests.data import test_cloudevent_body as test_data
 from cloudevents.tests.data import test_cloudevent_headers as test_headers
 
@@ -30,7 +30,7 @@ def post(url, headers, json):
 
 @app.route("/event", ["POST"])
 async def echo(request):
-    event = Event(dict(request.headers), request.body)
+    event = CloudEvent(dict(request.headers), request.body)
     return response.text(event.data, headers=event.headers)
 
 
@@ -38,7 +38,7 @@ def test_invalid_binary_headers():
     for i in range(len(test_headers)):
         headers = test_headers[i]
         try:
-            _ = Event(headers, test_data)
+            _ = CloudEvent(headers, test_data)
         except (TypeError, NotImplementedError):
             continue
         assert False
@@ -51,7 +51,7 @@ def test_emit_binary_event():
         "ce-type": "cloudevent.event.type",
         "ce-specversion": "0.2"
     }
-    event = Event(headers, test_data)
+    event = CloudEvent(headers, test_data)
     _, r = app.test_client.post(
         "/event",
         headers=event.headers,

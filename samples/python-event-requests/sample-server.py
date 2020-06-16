@@ -11,7 +11,7 @@
 #    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 #    License for the specific language governing permissions and limitations
 #    under the License.
-from cloudevents.sdk.http_events import Event
+from cloudevents.sdk.http_events import CloudEvent
 from flask import Flask, request
 app = Flask(__name__)
 
@@ -25,7 +25,7 @@ def root():
 def hello():
     # Saving data in event as json object
     headers = dict(request.headers)
-    event = Event(headers=headers, data=request.json)
+    event = CloudEvent(headers=headers, data=request.json)
     print(f"Received {event}")
     return '', 204
 
