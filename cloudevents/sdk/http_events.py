@@ -32,7 +32,7 @@ class CloudEvent(base.BaseEvent):
             self,
             headers: dict,
             data: any,
-            f: typing.Callable = lambda x: x
+            data_unmarshaller: typing.Callable = lambda x: x
     ):
         """
         Event HTTP Constructor
@@ -49,8 +49,8 @@ class CloudEvent(base.BaseEvent):
         :type data: any
         :param binary: a bool indicating binary events
         :type binary: bool
-        :param f: callable function for reading/extracting data
-        :type f: typing.Callable
+        :param data_unmarshaller: callable function for reading/extracting data
+        :type data_unmarshaller: typing.Callable
         """
         headers = {key.lower(): value for key, value in headers.items()}
         if self.is_binary_cloud_event(headers):
@@ -95,7 +95,7 @@ class CloudEvent(base.BaseEvent):
             self.event_handler,
             self.headers,
             self.data,
-            f
+            data_unmarshaller
         )
 
     def is_binary_cloud_event(self, headers):
