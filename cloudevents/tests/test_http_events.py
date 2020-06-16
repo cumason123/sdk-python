@@ -51,7 +51,7 @@ def test_emit_binary_event():
         "ce-id": "my-id",
         "ce-source": "<event-source>",
         "ce-type": "cloudevent.event.type",
-        "ce-specversion": "0.2"
+        "ce-specversion": "1.0"
     }
     event = CloudEvent(headers, test_data)
     _, r = app.test_client.post(
