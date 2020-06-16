@@ -21,7 +21,7 @@ source = "pytest"
 eventTime = "2018-10-23T12:28:23.3464579Z"
 body = '{"name":"john"}'
 
-http_event_test_headers = [
+test_cloudevent_headers = [
     {
         "ce-source": "<event-source>",
         "ce-type": "cloudevent.event.type",

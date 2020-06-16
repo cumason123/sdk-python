@@ -15,7 +15,7 @@ import json
 
 from cloudevents.sdk.http_events import Event
 from cloudevents.tests.data import http_event_ce_json as test_data
-from cloudevents.tests.data import http_event_test_headers as test_headers
+from cloudevents.tests.data import test_cloudevent_headers as test_headers
 
 from sanic import response
 from sanic import Sanic
@@ -52,9 +52,9 @@ def test_emit_binary_event():
         "ce-specversion": "0.2"
     }
     event = Event(headers, test_data)
-    _,r = app.test_client.post(
-        "/event", 
-        headers=event.headers, 
+    _, r = app.test_client.post(
+        "/event",
+        headers=event.headers,
         data=json.dumps(event.data)
     )
     body = json.loads(r.body)
