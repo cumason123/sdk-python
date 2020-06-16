@@ -39,6 +39,6 @@ if __name__ == "__main__":
     event = CloudEvent(headers=headers, data=data)
 
     # Print the created CloudEvent then send it to some url we got from
-    # Command line
+    # command line
     print(f"Sent {event}")
     requests.post(url, headers=event.headers, json=event.data)

@@ -21,10 +21,10 @@ def hello():
     # Convert headers to dict
     headers = dict(request.headers)
 
-    # Create a Cloud Event
+    # Create a CloudEvent
     event = CloudEvent(headers=headers, data=request.json)
 
-    # Print the received cloud event
+    # Print the received CloudEvent
     print(f"Received {event}")
     return '', 204
 
