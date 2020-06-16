@@ -69,3 +69,27 @@ def test_emit_binary_event():
     for key in headers:
         assert r.headers[key] == headers[key]
     assert r.status_code == 200
+
+
+def test_missing_ce_prefix_binary_event():
+    headers = {
+        "ce-id": "my-id",
+        "ce-source": "<event-source>",
+        "ce-type": "cloudevent.event.type",
+        "ce-specversion": "1.0"
+    }
+    for key in headers:
+        val = headers.pop(key)
+
+        # breaking prefix e.g. e-id instead of ce-id
+        headers[key[1:]] = val
+        try:
+            # Testing error handling on CloudEvent constructor
+            _ = CloudEvent(headers, test_data)
+        except (TypeError, NotImplementedError):
+            # CloudEvent constructor throws TypeError if missing required field
+            # and NotImplementedError because structured calls aren't
+            # implemented. In this instance one of the required keys should have
+            # prefix e-id instead of ce-id therefore it should throw
+            continue
+        assert False

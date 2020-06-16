@@ -54,10 +54,11 @@ class CloudEvent(base.BaseEvent):
         """
         headers = {key.lower(): value for key, value in headers.items()}
         if self.is_binary_cloud_event(headers):
-            # TODO: add content-type support?
+
             # Headers validation for binary events
             for field in base._ce_required_fields:
                 ce_prefixed_field = f"ce-{field}"
+
                 # Verify field exists else throw TypeError
                 if ce_prefixed_field not in headers:
                     raise TypeError(
