@@ -25,7 +25,7 @@ from cloudevents.sdk.event import v1
 class CloudEvent(base.BaseEvent):
     """
     Python-friendly cloudevent class supporting v1 events
-    Currently only supports binary events
+    Currently only supports binary content mode CloudEvents
     """
 
     def __init__(
