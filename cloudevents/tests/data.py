@@ -25,15 +25,15 @@ test_cloudevent_headers = [
     {
         "ce-source": "<event-source>",
         "ce-type": "cloudevent.event.type",
-        "ce-specversion": "0.2"
+        "ce-specversion": "1.0"
     }, {
         "ce-id": "my-id",
         "ce-type": "cloudevent.event.type",
-        "ce-specversion": "0.2"
+        "ce-specversion": "1.0"
     }, {
         "ce-id": "my-id",
         "ce-source": "<event-source>",
-        "ce-specversion": "0.2"
+        "ce-specversion": "1.0"
     }, {
         "ce-id": "my-id",
         "ce-source": "<event-source>",
@@ -47,7 +47,7 @@ test_cloudevent_body = {
 
 headers = {
     v02.Event: {
-        "ce-specversion": "0.2",
+        "ce-specversion": "1.0",
         "ce-type": ce_type,
         "ce-id": ce_id,
         "ce-time": eventTime,
@@ -55,7 +55,7 @@ headers = {
         "Content-Type": contentType,
     },
     v03.Event: {
-        "ce-specversion": "0.3",
+        "ce-specversion": "1.0",
         "ce-type": ce_type,
         "ce-id": ce_id,
         "ce-time": eventTime,
@@ -74,7 +74,7 @@ headers = {
 
 json_ce = {
     v02.Event: {
-        "specversion": "0.2",
+        "specversion": "1.0",
         "type": ce_type,
         "id": ce_id,
         "time": eventTime,
@@ -82,7 +82,7 @@ json_ce = {
         "contenttype": contentType,
     },
     v03.Event: {
-        "specversion": "0.3",
+        "specversion": "1.0",
         "type": ce_type,
         "id": ce_id,
         "time": eventTime,
