@@ -93,3 +93,27 @@ def test_missing_ce_prefix_binary_event():
             # prefix e-id instead of ce-id therefore it should throw
             continue
         assert False
+
+
+def test_valid_cloud_events():
+    # Test creating multiple cloud events
+    events_queue = []
+    headers = {}
+    num_cloudevents = 30
+    for i in range(num_cloudevents):
+        headers = {
+            "ce-id": f"id{i}",
+            "ce-source": f"source{i}.com.test",
+            "ce-type": f"cloudevent.test.type",
+            "ce-specversion": "1.0"
+        }
+        data = {'payload': f"payload-{i}"}
+        events_queue.append(CloudEvent(headers, data))
+
+    for i, event in enumerate(events_queue):
+        headers = event.headers
+        data = event.data
+
+        assert headers['ce-id'] == f"id{i}"
+        assert headers['ce-source'] == f"source{i}.com.test"
+        assert data['payload'] == f"payload-{i}"
