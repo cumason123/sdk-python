@@ -62,7 +62,7 @@ class HTTPMarshaller(object):
             raise exceptions.InvalidDataUnmarshaller()
 
         # Lower all header keys
-        headers = {key.lower(): headers[key] for key in headers}
+        headers = {key.lower(): value for key, value in headers.items()}
         content_type = headers.get("content-type", None)
 
         for cnvrtr in self.__converters:

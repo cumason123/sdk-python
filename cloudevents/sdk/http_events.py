@@ -83,7 +83,7 @@ class Event(base.BaseEvent):
         :param f: callable function for reading/extracting data
         :type f: typing.Callable
         """
-        headers = {key.lower(): headers[key] for key in headers}
+        headers = {key.lower(): value for key, value in headers.items()}
         if self.is_binary_cloud_event(headers):
 
             # Headers validation for binary events
