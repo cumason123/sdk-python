@@ -2,8 +2,8 @@ import pkg_resources
 import os
 
 # FORMAT: 1.x.x
-_LOCAL_PYPI_VERSION = "1.1.1"
-PACKAGE_NAME = "cloudevents"
+_LOCAL_PYPI_VERSION = "1.1.2"
+PACKAGE_NAME = "cumason123-cloudevents"
 
 
 def createTag():
