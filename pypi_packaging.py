@@ -3,6 +3,7 @@ import os
 
 # FORMAT: 1.x.x
 _LOCAL_PYPI_VERSION = "1.1.0"
+PACKAGE_NAME = "cloudevents"
 
 
 def createTag():
@@ -11,7 +12,7 @@ def createTag():
     # metadata.version only works on python3.8
     # Make sure to install most updated version of package
     published_pypi_version = pkg_resources.get_distribution(
-        "cloudevents"
+        PACKAGE_NAME
     ).version
 
     # Check pypi and local package version match
@@ -23,8 +24,13 @@ def createTag():
         # Push tag to origin master
         origin = repo.remote()
         origin.push(_LOCAL_PYPI_VERSION)
+
     else:
         # PyPI publish likely failed
+        print(
+            f"Expected {PACKAGE_NAME}=={_LOCAL_PYPI_VERSION} but found "
+            f"{PACKAGE_NAME}=={published_pypi_version}"
+        )
         exit(1)
 
 
